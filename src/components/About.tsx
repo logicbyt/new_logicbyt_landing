@@ -29,39 +29,33 @@ export function About() {
     <section
       id="about"
       ref={sectionRef}
-      className="relative py-24 md:py-32 overflow-hidden"
+      className="relative py-24 md:py-32 bg-gray-50"
     >
-      {/* Background */}
-      <div className="absolute inset-0 bg-primary-dark"></div>
-      <div className="absolute inset-0 grid-pattern opacity-50"></div>
-      
-      {/* Decorative Elements */}
-      <div className="absolute top-20 right-20 w-40 h-40 border border-accent/10 rounded-full hidden lg:block"></div>
-      <div className="absolute bottom-20 left-20 w-32 h-32 border border-secondary/10 rotate-45 hidden lg:block"></div>
-
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           {/* Left Content */}
           <div>
-            <h2 className="animate-on-scroll text-3xl sm:text-4xl md:text-5xl font-bold mb-6">
-              <span className="text-white">{siteConfig.about.title.split(" ")[0]} </span>
-              <span className="gradient-text">{siteConfig.about.title.split(" ").slice(1).join(" ")}</span>
+            <span className="animate-on-scroll inline-block px-4 py-2 bg-primary/10 text-primary text-sm font-medium rounded-full mb-4">
+              Sobre Nosotros
+            </span>
+            <h2 className="animate-on-scroll stagger-1 text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+              {siteConfig.about.title}
             </h2>
             
-            <p className="animate-on-scroll stagger-1 text-lg text-white/60 mb-8">
+            <p className="animate-on-scroll stagger-2 text-lg text-gray-600 mb-8">
               {siteConfig.about.subtitle}
             </p>
 
-            <p className="animate-on-scroll stagger-2 text-white/50 leading-relaxed mb-10">
+            <p className="animate-on-scroll stagger-3 text-gray-500 leading-relaxed mb-10">
               {siteConfig.about.description}
             </p>
 
             {/* Values */}
-            <div className="animate-on-scroll stagger-3 flex flex-wrap gap-3">
+            <div className="animate-on-scroll stagger-4 flex flex-wrap gap-3">
               {siteConfig.about.values.map((value, index) => (
                 <span
                   key={index}
-                  className="px-4 py-2 rounded-full glass-effect text-sm text-white/70 hover:text-white hover:border-accent/30 transition-all duration-300"
+                  className="px-4 py-2 rounded-full bg-white text-sm text-gray-600 shadow-sm border border-gray-100 hover:border-secondary/30 hover:text-secondary transition-all duration-300"
                 >
                   {value}
                 </span>
@@ -74,20 +68,18 @@ export function About() {
             {siteConfig.about.highlights.map((highlight, index) => (
               <div
                 key={index}
-                className={`animate-on-scroll stagger-${index + 1} glass-card rounded-2xl p-6 group hover:border-accent/30`}
+                className={`animate-on-scroll stagger-${index + 1} bg-white rounded-2xl p-6 shadow-sm border border-gray-100 group hover:shadow-md hover:border-secondary/20 transition-all duration-300`}
               >
                 <div className="flex items-start gap-4">
-                  {/* Number */}
-                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-secondary/20 to-accent/20 flex items-center justify-center text-accent font-bold group-hover:from-secondary/40 group-hover:to-accent/40 transition-all duration-500">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-secondary/10 to-accent/10 flex items-center justify-center text-secondary font-bold group-hover:from-secondary/20 group-hover:to-accent/20 transition-all duration-300">
                     {String(index + 1).padStart(2, "0")}
                   </div>
                   
-                  {/* Content */}
                   <div>
-                    <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-accent transition-colors duration-300">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-secondary transition-colors duration-300">
                       {highlight.title}
                     </h3>
-                    <p className="text-sm text-white/50 leading-relaxed">
+                    <p className="text-sm text-gray-500 leading-relaxed">
                       {highlight.description}
                     </p>
                   </div>
@@ -99,7 +91,7 @@ export function About() {
             <div className="animate-on-scroll stagger-4 pt-4">
               <a
                 href="#contact"
-                className="inline-flex items-center gap-3 text-accent hover:text-accent-light transition-colors duration-300 group"
+                className="inline-flex items-center gap-3 text-secondary hover:text-primary transition-colors duration-300 group"
               >
                 <span>Conoce al equipo</span>
                 <svg
@@ -108,12 +100,7 @@ export function About() {
                   viewBox="0 0 24 24"
                   stroke="currentColor"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M17 8l4 4m0 0l-4 4m4-4H3"
-                  />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
               </a>
             </div>

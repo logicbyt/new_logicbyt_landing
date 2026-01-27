@@ -25,25 +25,31 @@ export function Services() {
     return () => observer.disconnect();
   }, []);
 
+  const serviceIcons = [
+    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>,
+    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>,
+    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" /></svg>,
+    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>,
+    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>,
+    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>,
+  ];
+
   return (
     <section
       id="services"
       ref={sectionRef}
-      className="relative py-24 md:py-32 overflow-hidden"
+      className="relative py-24 md:py-32 bg-gray-50"
     >
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-primary via-primary-light/50 to-primary"></div>
-      <div className="glow-orb w-72 h-72 bg-accent/30 top-1/4 -right-36"></div>
-      <div className="glow-orb w-64 h-64 bg-secondary/30 bottom-1/4 -left-32"></div>
-
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16 md:mb-20">
-          <h2 className="animate-on-scroll text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
-            <span className="text-white">{siteConfig.services.title.split(" ")[0]} </span>
-            <span className="gradient-text">{siteConfig.services.title.split(" ").slice(1).join(" ")}</span>
+          <span className="animate-on-scroll inline-block px-4 py-2 bg-secondary/10 text-secondary text-sm font-medium rounded-full mb-4">
+            Nuestros Servicios
+          </span>
+          <h2 className="animate-on-scroll stagger-1 text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            {siteConfig.services.title}
           </h2>
-          <p className="animate-on-scroll stagger-1 text-lg text-white/60 max-w-2xl mx-auto">
+          <p className="animate-on-scroll stagger-2 text-lg text-gray-600 max-w-2xl mx-auto">
             {siteConfig.services.subtitle}
           </p>
         </div>
@@ -53,25 +59,20 @@ export function Services() {
           {siteConfig.services.items.map((service, index) => (
             <div
               key={service.id}
-              className={`animate-on-scroll stagger-${(index % 6) + 1} glass-card rounded-3xl p-8 group`}
+              className={`animate-on-scroll stagger-${(index % 6) + 1} bg-white rounded-2xl p-8 shadow-sm hover:shadow-lg transition-all duration-300 group border border-gray-100 hover:border-secondary/20`}
             >
-              {/* Service Number */}
-              <div className="flex items-center justify-between mb-6">
-                <span className="text-6xl font-bold text-white/5 group-hover:text-accent/10 transition-colors duration-500">
-                  {String(service.id).padStart(2, "0")}
-                </span>
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-secondary/20 to-accent/20 flex items-center justify-center group-hover:from-secondary/40 group-hover:to-accent/40 transition-all duration-500">
-                  <div className="w-3 h-3 bg-accent rounded-full"></div>
-                </div>
+              {/* Icon */}
+              <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-secondary/10 to-accent/10 flex items-center justify-center text-secondary mb-6 group-hover:from-secondary/20 group-hover:to-accent/20 transition-all duration-300">
+                {serviceIcons[index % serviceIcons.length]}
               </div>
 
               {/* Service Title */}
-              <h3 className="text-xl font-semibold text-white mb-3 group-hover:text-accent transition-colors duration-300">
+              <h3 className="text-xl font-semibold text-gray-900 mb-3 group-hover:text-secondary transition-colors duration-300">
                 {service.title}
               </h3>
 
               {/* Service Description */}
-              <p className="text-white/60 text-sm leading-relaxed mb-6">
+              <p className="text-gray-600 text-sm leading-relaxed mb-6">
                 {service.description}
               </p>
 
@@ -80,19 +81,19 @@ export function Services() {
                 {service.features.map((feature, fIndex) => (
                   <li
                     key={fIndex}
-                    className="flex items-center gap-3 text-sm text-white/50"
+                    className="flex items-center gap-3 text-sm text-gray-500"
                   >
-                    <span className="w-1.5 h-1.5 bg-accent rounded-full"></span>
+                    <span className="w-1.5 h-1.5 bg-accent rounded-full flex-shrink-0"></span>
                     {feature}
                   </li>
                 ))}
               </ul>
 
-              {/* Hover Line */}
-              <div className="mt-8 pt-6 border-t border-white/5">
+              {/* Link */}
+              <div className="mt-8 pt-6 border-t border-gray-100">
                 <a
                   href="#contact"
-                  className="inline-flex items-center gap-2 text-sm text-white/40 group-hover:text-accent transition-colors duration-300"
+                  className="inline-flex items-center gap-2 text-sm text-gray-400 group-hover:text-secondary transition-colors duration-300"
                 >
                   Saber más
                   <svg
@@ -101,12 +102,7 @@ export function Services() {
                     viewBox="0 0 24 24"
                     stroke="currentColor"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M17 8l4 4m0 0l-4 4m4-4H3"
-                    />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
                 </a>
               </div>

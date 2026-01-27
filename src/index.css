@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
 /* ============================================
-   LOGICBYT - Custom Theme Configuration
+   LOGICBYT - Modern Light Theme
    ============================================ */
 
 @theme {
-  /* Custom Colors */
+  /* Light Theme Colors */
   --color-primary: #082c4c;
   --color-primary-light: #0d3d66;
   --color-primary-dark: #051d33;
@@ -13,19 +13,27 @@
   --color-secondary-light: #5cb8e8;
   --color-accent: #22e1c7;
   --color-accent-light: #4eebd6;
+  
+  /* Light backgrounds */
+  --color-light: #ffffff;
+  --color-light-soft: #f8fafc;
+  --color-light-muted: #f1f5f9;
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
 
-  /* Custom Animations */
+  /* Animations */
   --animate-fade-in: fade-in 0.6s ease-out forwards;
   --animate-fade-in-up: fade-in-up 0.8s ease-out forwards;
-  --animate-fade-in-down: fade-in-down 0.6s ease-out forwards;
-  --animate-fade-in-left: fade-in-left 0.6s ease-out forwards;
-  --animate-fade-in-right: fade-in-right 0.6s ease-out forwards;
-  --animate-scale-in: scale-in 0.5s ease-out forwards;
+  --animate-slide-up: slide-up 0.5s ease-out forwards;
   --animate-float: float 6s ease-in-out infinite;
-  --animate-pulse-glow: pulse-glow 2s ease-in-out infinite;
-  --animate-gradient: gradient-shift 8s ease infinite;
-  --animate-slide-up: slide-up 0.4s ease-out forwards;
-  --animate-bounce-subtle: bounce-subtle 2s ease-in-out infinite;
 
   @keyframes fade-in {
     from { opacity: 0; }
@@ -33,88 +41,18 @@
   }
 
   @keyframes fade-in-up {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
-  @keyframes fade-in-down {
-    from {
-      opacity: 0;
-      transform: translateY(-30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes fade-in-left {
-    from {
-      opacity: 0;
-      transform: translateX(-30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-
-  @keyframes fade-in-right {
-    from {
-      opacity: 0;
-      transform: translateX(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-
-  @keyframes scale-in {
-    from {
-      opacity: 0;
-      transform: scale(0.9);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
+  @keyframes slide-up {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
   @keyframes float {
     0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-20px); }
-  }
-
-  @keyframes pulse-glow {
-    0%, 100% { 
-      box-shadow: 0 0 20px rgba(34, 225, 199, 0.3);
-    }
-    50% { 
-      box-shadow: 0 0 40px rgba(34, 225, 199, 0.6);
-    }
-  }
-
-  @keyframes gradient-shift {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-  }
-
-  @keyframes slide-up {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    50% { transform: translateY(-15px); }
   }
 
   @keyframes bounce-subtle {
@@ -124,7 +62,7 @@
 }
 
 /* ============================================
-   Base Styles
+   Base Styles - Light Theme
    ============================================ */
 
 * {
@@ -139,10 +77,10 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background-color: var(--color-primary);
-  color: #ffffff;
+  background-color: #ffffff;
+  color: var(--color-gray-800);
   overflow-x: hidden;
-  line-height: 1.6;
+  line-height: 1.7;
 }
 
 #root {
@@ -151,7 +89,7 @@ body {
 }
 
 /* ============================================
-   Custom Utility Classes
+   Typography
    ============================================ */
 
 .gradient-text {
@@ -161,86 +99,79 @@ body {
   background-clip: text;
 }
 
-.gradient-bg {
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 50%, var(--color-primary) 100%);
-  background-size: 200% 200%;
-  animation: gradient-shift 8s ease infinite;
+.text-balance {
+  text-wrap: balance;
 }
 
-.glass-effect {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
+/* ============================================
+   Light Cards & Surfaces
+   ============================================ */
 
-.glass-card {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+.card-light {
+  background: white;
+  border-radius: 1.5rem;
+  border: 1px solid var(--color-gray-100);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.glass-card:hover {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 100%);
-  border-color: rgba(34, 225, 199, 0.3);
-  transform: translateY(-5px);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+.card-light:hover {
+  border-color: var(--color-gray-200);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+  transform: translateY(-4px);
 }
+
+.card-soft {
+  background: var(--color-light-soft);
+  border-radius: 1.25rem;
+  border: 1px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.card-soft:hover {
+  background: white;
+  border-color: var(--color-gray-200);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+}
+
+/* ============================================
+   Buttons
+   ============================================ */
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--color-secondary), var(--color-accent));
-  color: var(--color-primary);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+  color: white;
   font-weight: 600;
-  padding: 0.875rem 2rem;
-  border-radius: 9999px;
+  padding: 1rem 2rem;
+  border-radius: 0.75rem;
   transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
   border: none;
   cursor: pointer;
-}
-
-.btn-primary::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-  transition: left 0.5s ease;
-}
-
-.btn-primary:hover::before {
-  left: 100%;
+  box-shadow: 0 4px 14px 0 rgba(8, 44, 76, 0.25);
 }
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px -5px rgba(34, 225, 199, 0.4);
+  box-shadow: 0 8px 25px 0 rgba(8, 44, 76, 0.35);
 }
 
 .btn-secondary {
   background: transparent;
-  color: #ffffff;
+  color: var(--color-primary);
   font-weight: 600;
-  padding: 0.875rem 2rem;
-  border-radius: 9999px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  padding: 1rem 2rem;
+  border-radius: 0.75rem;
+  border: 2px solid var(--color-gray-200);
   transition: all 0.3s ease;
   cursor: pointer;
 }
 
 .btn-secondary:hover {
-  border-color: var(--color-accent);
-  color: var(--color-accent);
-  transform: translateY(-2px);
+  border-color: var(--color-primary);
+  background: var(--color-light-soft);
 }
 
 /* ============================================
-   Section Animations (Intersection Observer)
+   Section Animations
    ============================================ */
 
 .animate-on-scroll {
@@ -265,35 +196,21 @@ body {
    Decorative Elements
    ============================================ */
 
-.glow-orb {
+.dot-pattern {
+  background-image: radial-gradient(circle, var(--color-gray-200) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.gradient-blur {
   position: absolute;
   border-radius: 50%;
-  filter: blur(80px);
+  filter: blur(100px);
   opacity: 0.4;
   pointer-events: none;
 }
 
-.grid-pattern {
-  background-image: 
-    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 50px 50px;
-}
-
-.noise-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  opacity: 0.02;
-  z-index: 1000;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-}
-
 /* ============================================
-   Scrollbar Styling
+   Scrollbar
    ============================================ */
 
 ::-webkit-scrollbar {
@@ -301,20 +218,20 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-primary);
+  background: var(--color-light-soft);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-secondary);
+  background: var(--color-gray-300);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-accent);
+  background: var(--color-secondary);
 }
 
 /* ============================================
-   Selection Styling
+   Selection
    ============================================ */
 
 ::selection {
@@ -323,7 +240,7 @@ body {
 }
 
 /* ============================================
-   Input Styling
+   Inputs
    ============================================ */
 
 input, textarea {
@@ -335,7 +252,27 @@ input:focus, textarea:focus {
 }
 
 /* ============================================
-   Responsive Typography
+   Utility Classes
+   ============================================ */
+
+.section-padding {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+}
+
+@media (min-width: 768px) {
+  .section-padding {
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+  }
+}
+
+.animate-bounce-subtle {
+  animation: bounce-subtle 2s ease-in-out infinite;
+}
+
+/* ============================================
+   Responsive
    ============================================ */
 
 @media (max-width: 768px) {

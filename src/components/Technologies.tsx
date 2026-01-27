@@ -29,19 +29,18 @@ export function Technologies() {
     <section
       id="technologies"
       ref={sectionRef}
-      className="relative py-24 md:py-32 overflow-hidden"
+      className="relative py-24 md:py-32 bg-white"
     >
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-primary-dark via-primary to-primary-dark"></div>
-      <div className="glow-orb w-96 h-96 bg-secondary/20 top-0 left-1/2 -translate-x-1/2"></div>
-
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16 md:mb-20">
-          <h2 className="animate-on-scroll text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
-            <span className="gradient-text">{siteConfig.technologies.title}</span>
+          <span className="animate-on-scroll inline-block px-4 py-2 bg-accent/10 text-accent text-sm font-medium rounded-full mb-4">
+            Stack Tecnológico
+          </span>
+          <h2 className="animate-on-scroll stagger-1 text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            {siteConfig.technologies.title}
           </h2>
-          <p className="animate-on-scroll stagger-1 text-lg text-white/60 max-w-2xl mx-auto">
+          <p className="animate-on-scroll stagger-2 text-lg text-gray-600 max-w-2xl mx-auto">
             {siteConfig.technologies.subtitle}
           </p>
         </div>
@@ -51,19 +50,17 @@ export function Technologies() {
           {siteConfig.technologies.categories.map((category, index) => (
             <div
               key={index}
-              className={`animate-on-scroll stagger-${(index % 5) + 1} glass-card rounded-2xl p-6 text-center group`}
+              className={`animate-on-scroll stagger-${(index % 5) + 1} bg-gray-50 rounded-2xl p-6 text-center group hover:bg-white hover:shadow-lg transition-all duration-300 border border-gray-100`}
             >
-              {/* Category Name */}
-              <h3 className="text-sm font-semibold text-accent uppercase tracking-wider mb-6">
+              <h3 className="text-sm font-semibold text-secondary uppercase tracking-wider mb-6">
                 {category.name}
               </h3>
 
-              {/* Tech Tags */}
               <div className="flex flex-wrap justify-center gap-2">
                 {category.techs.map((tech, tIndex) => (
                   <span
                     key={tIndex}
-                    className="px-3 py-1.5 text-xs font-medium text-white/70 bg-white/5 rounded-lg hover:bg-accent/20 hover:text-accent transition-all duration-300 cursor-default"
+                    className="px-3 py-1.5 text-xs font-medium text-gray-600 bg-white rounded-lg border border-gray-200 hover:border-secondary/30 hover:text-secondary transition-all duration-300 cursor-default"
                   >
                     {tech}
                   </span>
@@ -75,13 +72,14 @@ export function Technologies() {
 
         {/* Process Section */}
         <div className="mt-24 md:mt-32">
-          {/* Process Header */}
           <div className="text-center mb-16">
-            <h2 className="animate-on-scroll text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
-              <span className="text-white">{siteConfig.process.title.split(" ")[0]} </span>
-              <span className="gradient-text">{siteConfig.process.title.split(" ").slice(1).join(" ")}</span>
+            <span className="animate-on-scroll inline-block px-4 py-2 bg-secondary/10 text-secondary text-sm font-medium rounded-full mb-4">
+              Metodología
+            </span>
+            <h2 className="animate-on-scroll stagger-1 text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              {siteConfig.process.title}
             </h2>
-            <p className="animate-on-scroll stagger-1 text-lg text-white/60 max-w-2xl mx-auto">
+            <p className="animate-on-scroll stagger-2 text-lg text-gray-600 max-w-2xl mx-auto">
               {siteConfig.process.subtitle}
             </p>
           </div>
@@ -89,28 +87,21 @@ export function Technologies() {
           {/* Process Steps */}
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {siteConfig.process.steps.map((step, index) => (
-              <div
-                key={index}
-                className={`animate-on-scroll stagger-${index + 1} relative group`}
-              >
-                {/* Connector Line (except last) */}
+              <div key={index} className={`animate-on-scroll stagger-${index + 1} relative group`}>
                 {index < siteConfig.process.steps.length - 1 && (
-                  <div className="hidden lg:block absolute top-8 left-full w-full h-0.5 bg-gradient-to-r from-accent/30 to-transparent z-0"></div>
+                  <div className="hidden lg:block absolute top-8 left-full w-full h-0.5 bg-gradient-to-r from-secondary/20 to-transparent z-0"></div>
                 )}
 
-                <div className="glass-card rounded-2xl p-6 relative z-10 h-full">
-                  {/* Step Number */}
-                  <div className="text-5xl font-bold gradient-text mb-4 group-hover:scale-110 transition-transform duration-300 inline-block">
+                <div className="bg-white rounded-2xl p-6 relative z-10 h-full shadow-sm border border-gray-100 group-hover:shadow-md group-hover:border-secondary/20 transition-all duration-300">
+                  <div className="text-4xl font-bold text-secondary/20 mb-4 group-hover:text-secondary/40 transition-colors duration-300">
                     {step.number}
                   </div>
 
-                  {/* Step Title */}
-                  <h3 className="text-lg font-semibold text-white mb-3 group-hover:text-accent transition-colors duration-300">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3 group-hover:text-secondary transition-colors duration-300">
                     {step.title}
                   </h3>
 
-                  {/* Step Description */}
-                  <p className="text-sm text-white/50 leading-relaxed">
+                  <p className="text-sm text-gray-500 leading-relaxed">
                     {step.description}
                   </p>
                 </div>
