@@ -6,6 +6,7 @@ export function Projects() {
   const [activeCategory, setActiveCategory] = useState("Todos");
   const [selectedProject, setSelectedProject] = useState<typeof siteConfig.projects.items[0] | null>(null);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -32,6 +33,16 @@ export function Projects() {
   const filteredProjects = activeCategory === "Todos"
     ? siteConfig.projects.items
     : siteConfig.projects.items.filter((p) => p.category === activeCategory);
+
+  // Handle category change with animation
+  const handleCategoryChange = (category: string) => {
+    if (category === activeCategory) return;
+    setIsAnimating(true);
+    setTimeout(() => {
+      setActiveCategory(category);
+      setIsAnimating(false);
+    }, 200);
+  };
 
   // Open project viewer
   const openViewer = (project: typeof siteConfig.projects.items[0]) => {
@@ -86,7 +97,7 @@ export function Projects() {
             {siteConfig.projects.categories.map((category) => (
               <button
                 key={category}
-                onClick={() => setActiveCategory(category)}
+                onClick={() => handleCategoryChange(category)}
                 className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
                   activeCategory === category
                     ? "bg-gradient-to-r from-secondary to-accent text-primary shadow-lg shadow-accent/25"
@@ -99,12 +110,19 @@ export function Projects() {
           </div>
 
           {/* Projects Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <div 
+            className={`grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 transition-all duration-300 ${
+              isAnimating ? "opacity-0 translate-y-4" : "opacity-100 translate-y-0"
+            }`}
+          >
             {filteredProjects.map((project, index) => (
               <div
                 key={project.id}
-                className={`animate-on-scroll stagger-${(index % 6) + 1} group cursor-pointer`}
+                className="group cursor-pointer"
                 onClick={() => openViewer(project)}
+                style={{
+                  animation: `fade-in-up 0.5s ease-out ${index * 0.1}s both`
+                }}
               >
                 <div className="glass-card rounded-2xl overflow-hidden h-full flex flex-col">
                   {/* Project Image */}
