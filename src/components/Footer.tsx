@@ -10,9 +10,11 @@ export function Footer() {
           <div className="col-span-2 lg:col-span-2">
             {/* Logo */}
             <a href="#hero" className="inline-flex items-center gap-3 group mb-6">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-secondary to-accent flex items-center justify-center transform transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
-                <span className="text-primary font-bold text-xl">L</span>
-              </div>
+              <img 
+              src={siteConfig.brand.logobw} 
+              alt={siteConfig.brand.name}
+              className="w-10 h-10 transform transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3"
+            />
               <span className="text-xl font-bold tracking-tight">
                 <span className="text-white">{siteConfig.brand.name.slice(0, 5)}</span>
                 <span className="gradient-text">{siteConfig.brand.name.slice(5)}</span>
@@ -85,7 +87,7 @@ export function Footer() {
               {siteConfig.footer.copyright}
             </p>
             <p className="text-sm text-white/30">
-              Hecho con <span className="text-accent">♥</span> y mucho código
+              Hecho con <span className="text-accent"> ♥ </span> y mucho código en Perú
             </p>
           </div>
         </div>

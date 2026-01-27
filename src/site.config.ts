@@ -7,7 +7,7 @@ export const siteConfig = {
   // Brand Information
   brand: {
     name: "LogicByt",
-    tagline: "Transformamos ideas en software",
+    tagline: "Transformamos ideas en Software Extraordinario",
     logo: "/logo.svg",
     logobw: "/logo-bw.svg",
   },
