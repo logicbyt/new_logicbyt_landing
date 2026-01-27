@@ -121,6 +121,26 @@
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-5px); }
   }
+
+  @keyframes scan {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100vh); }
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  @keyframes glow-pulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+  }
+
+  @keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+  }
 }
 
 /* ============================================
@@ -343,3 +363,97 @@ input:focus, textarea:focus {
     font-size: 14px;
   }
 }
+
+/* ============================================
+   Scan Line Animation
+   ============================================ */
+
+.animate-scan {
+  animation: scan 3s ease-in-out infinite;
+}
+
+/* ============================================
+   Tech Card Styling
+   ============================================ */
+
+.tech-card {
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.2) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 1rem;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tech-card:hover {
+  border-color: rgba(34, 225, 199, 0.3);
+  box-shadow: 0 0 30px -10px rgba(34, 225, 199, 0.2);
+}
+
+/* ============================================
+   Terminal Cursor Blink
+   ============================================ */
+
+.cursor-blink {
+  animation: blink 1s step-end infinite;
+}
+
+/* ============================================
+   Code Syntax Highlighting
+   ============================================ */
+
+.code-comment { color: rgba(255, 255, 255, 0.3); }
+.code-keyword { color: #34a3df; }
+.code-string { color: #22e1c7; }
+.code-function { color: #ffd700; }
+.code-number { color: #ff6b6b; }
+
+/* ============================================
+   Line Numbers
+   ============================================ */
+
+.line-number {
+  color: rgba(255, 255, 255, 0.2);
+  user-select: none;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================================
+   Glow Effects
+   ============================================ */
+
+.glow-accent {
+  box-shadow: 0 0 20px -5px rgba(34, 225, 199, 0.4);
+}
+
+.glow-secondary {
+  box-shadow: 0 0 20px -5px rgba(52, 163, 223, 0.4);
+}
+
+/* ============================================
+   Hover Line Decoration
+   ============================================ */
+
+.hover-line::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-secondary));
+  transition: width 0.3s ease;
+}
+
+.hover-line:hover::after {
+  width: 100%;
+}
+
+/* ============================================
+   Monospace Font
+   ============================================ */
+
+.font-mono {
+  font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', Monaco, 'Cascadia Code', monospace;
+}
+
