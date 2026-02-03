@@ -1,8 +1,31 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { siteConfig } from "../site.config";
 
 export function About() {
   const sectionRef = useRef<HTMLElement>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const openDialog = useCallback(() => {
+    setIsDialogOpen(true);
+    document.body.style.overflow = "hidden";
+  }, []);
+
+  const closeDialog = useCallback(() => {
+    setIsDialogOpen(false);
+    document.body.style.overflow = "";
+  }, []);
+
+  // Close dialog on Escape key
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isDialogOpen) {
+        closeDialog();
+      }
+    };
+
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [isDialogOpen, closeDialog]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -89,9 +112,9 @@ export function About() {
 
             {/* CTA */}
             <div className="animate-on-scroll stagger-4 pt-4">
-              <a
-                href="#contact"
-                className="inline-flex items-center gap-3 text-secondary hover:text-primary transition-colors duration-300 group"
+              <button
+                onClick={openDialog}
+                className="inline-flex items-center gap-3 text-secondary hover:text-primary transition-colors duration-300 group cursor-pointer"
               >
                 <span>Conoce al equipo</span>
                 <svg
@@ -102,11 +125,79 @@ export function About() {
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
-              </a>
+              </button>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Team Dialog */}
+      {isDialogOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="team-dialog-title"
+        >
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-primary/40 backdrop-blur-sm animate-fade-in"
+            onClick={closeDialog}
+          />
+
+          {/* Dialog Content */}
+          <div className="relative bg-white rounded-2xl shadow-2xl max-w-3xl w-full overflow-hidden animate-scale-in">
+            {/* Close Button */}
+            <button
+              onClick={closeDialog}
+              className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-500 hover:text-gray-700 transition-all duration-300 cursor-pointer"
+              aria-label="Cerrar"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            <div className="grid md:grid-cols-2">
+              {/* Image */}
+              <div className="relative h-64 md:h-auto">
+                <img
+                  src={siteConfig.equipo.foto}
+                  alt={siteConfig.equipo.nombre}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent md:bg-gradient-to-r" />
+              </div>
+
+              {/* Content */}
+              <div className="p-8 md:p-10 flex flex-col justify-center">
+                <span className="inline-block px-3 py-1 bg-secondary/10 text-secondary text-xs font-medium rounded-full mb-4 w-fit">
+                  Nuestro Equipo
+                </span>
+                <h3
+                  id="team-dialog-title"
+                  className="text-2xl md:text-3xl font-bold text-gray-900 mb-4"
+                >
+                  {siteConfig.equipo.nombre}
+                </h3>
+                <p className="text-gray-600 leading-relaxed mb-6">
+                  {siteConfig.equipo.descripcion}
+                </p>
+                <a
+                  href="#contact"
+                  onClick={closeDialog}
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-secondary to-accent text-white font-medium rounded-xl hover:shadow-lg hover:shadow-secondary/25 transition-all duration-300 w-fit"
+                >
+                  <span>Contáctanos</span>
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

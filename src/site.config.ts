@@ -11,6 +11,11 @@ export const siteConfig = {
     logo: "/logo.svg",
     logobw: "/logo-bw.svg",
   },
+  equipo: {
+    nombre: "Equipo LogicByt",
+    descripcion: "Un grupo de profesionales apasionados por la tecnología y la innovación, dedicados a crear soluciones digitales que impulsan el éxito de nuestros clientes.",
+    foto: "images/equipo.png",
+  },
 
   // Navigation Links
   navigation: [
@@ -173,8 +178,8 @@ export const siteConfig = {
         url: "https://logicbyt.com",
         featured: false,
         results: [
-          { metric: "Ventas mensuales", value: "3x" },
-          { metric: "Tasa de conversión", value: "4.8%" },
+          { metric: "Productividad", value: "++" },
+          { metric: "Eficiencia", value: "++" },
         ],
       },
       
