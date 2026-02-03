@@ -1,8 +1,11 @@
 import { siteConfig } from "../site.config";
+import { useTheme } from "../context/ThemeContext";
 
 export function Footer() {
+  const { isDark } = useTheme();
+
   return (
-    <footer className="relative bg-white border-t border-gray-100">
+    <footer className={`relative transition-colors duration-300 ${isDark ? "bg-primary-dark border-t border-primary-light" : "bg-white border-t border-gray-100"}`}>
       {/* Main Footer */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 lg:gap-12">
@@ -10,13 +13,13 @@ export function Footer() {
           <div className="col-span-2 lg:col-span-2">
             <a href="#hero" className="inline-flex items-center gap-3 group mb-6">
               <img 
-                src={siteConfig.brand.logo} 
+                src={isDark ? siteConfig.brand.logobw : siteConfig.brand.logo} 
                 alt={siteConfig.brand.name}
                 className="h-10 w-auto transition-transform duration-300 group-hover:scale-105"
               />
             </a>
 
-            <p className="text-gray-500 text-sm leading-relaxed mb-6 max-w-xs">
+            <p className={`text-sm leading-relaxed mb-6 max-w-xs ${isDark ? "text-gray-400" : "text-gray-500"}`}>
               {siteConfig.footer.description}
             </p>
 
@@ -28,7 +31,11 @@ export function Footer() {
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-9 h-9 rounded-lg bg-gray-100 flex items-center justify-center text-gray-400 hover:text-secondary hover:bg-secondary/10 transition-all duration-300"
+                  className={`w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-300 ${
+                    isDark 
+                      ? "bg-primary-light text-gray-400 hover:text-secondary hover:bg-secondary/20" 
+                      : "bg-gray-100 text-gray-400 hover:text-secondary hover:bg-secondary/10"
+                  }`}
                   aria-label={social.platform}
                 >
                   {social.platform === "WhatsApp" && (
@@ -54,7 +61,7 @@ export function Footer() {
           {/* Links Columns */}
           {siteConfig.footer.links.map((column, index) => (
             <div key={index}>
-              <h4 className="text-gray-900 font-semibold text-sm mb-4">
+              <h4 className={`font-semibold text-sm mb-4 ${isDark ? "text-white" : "text-gray-900"}`}>
                 {column.title}
               </h4>
               <ul className="space-y-3">
@@ -62,7 +69,7 @@ export function Footer() {
                   <li key={lIndex}>
                     <a
                       href={link.href}
-                      className="text-sm text-gray-500 hover:text-secondary transition-colors duration-300"
+                      className={`text-sm hover:text-secondary transition-colors duration-300 ${isDark ? "text-gray-400" : "text-gray-500"}`}
                     >
                       {link.label}
                     </a>
@@ -75,13 +82,13 @@ export function Footer() {
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-gray-100">
+      <div className={`border-t ${isDark ? "border-primary-light" : "border-gray-100"}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-sm text-gray-400">
+            <p className={`text-sm ${isDark ? "text-gray-500" : "text-gray-400"}`}>
               {siteConfig.footer.copyright}
             </p>
-            <p className="text-sm text-gray-400">
+            <p className={`text-sm ${isDark ? "text-gray-500" : "text-gray-400"}`}>
               Hecho con <span className="text-accent">♥</span> y mucho código en Perú
             </p>
           </div>

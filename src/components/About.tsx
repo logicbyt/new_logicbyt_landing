@@ -1,9 +1,12 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { siteConfig } from "../site.config";
+import { useTheme } from "../context/ThemeContext";
 
 export function About() {
   const sectionRef = useRef<HTMLElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const { isDark } = useTheme();
 
   const openDialog = useCallback(() => {
     setIsDialogOpen(true);
@@ -28,22 +31,27 @@ export function About() {
   }, [isDialogOpen, closeDialog]);
 
   useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    // Check if already in viewport
+    const rect = section.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      setIsVisible(true);
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.querySelectorAll(".animate-on-scroll").forEach((el) => {
-              el.classList.add("visible");
-            });
+            setIsVisible(true);
           }
         });
       },
       { threshold: 0.1 }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
+    observer.observe(section);
 
     return () => observer.disconnect();
   }, []);
@@ -52,33 +60,37 @@ export function About() {
     <section
       id="about"
       ref={sectionRef}
-      className="relative py-24 md:py-32 bg-gray-50"
+      className={`relative py-24 md:py-32 transition-colors duration-300 ${isDark ? "bg-primary" : "bg-gray-50"}`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           {/* Left Content */}
           <div>
-            <span className="animate-on-scroll inline-block px-4 py-2 bg-primary/10 text-primary text-sm font-medium rounded-full mb-4">
+            <span className={`animate-on-scroll ${isVisible ? "visible" : ""} inline-block px-4 py-2 text-sm font-medium rounded-full mb-4 ${isDark ? "bg-secondary/20 text-secondary" : "bg-primary/10 text-primary"}`}>
               Sobre Nosotros
             </span>
-            <h2 className="animate-on-scroll stagger-1 text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+            <h2 className={`animate-on-scroll stagger-1 ${isVisible ? "visible" : ""} text-3xl sm:text-4xl md:text-5xl font-bold mb-6 ${isDark ? "text-white" : "text-gray-900"}`}>
               {siteConfig.about.title}
             </h2>
             
-            <p className="animate-on-scroll stagger-2 text-lg text-gray-600 mb-8">
+            <p className={`animate-on-scroll stagger-2 ${isVisible ? "visible" : ""} text-lg mb-8 ${isDark ? "text-gray-300" : "text-gray-600"}`}>
               {siteConfig.about.subtitle}
             </p>
 
-            <p className="animate-on-scroll stagger-3 text-gray-500 leading-relaxed mb-10">
+            <p className={`animate-on-scroll stagger-3 ${isVisible ? "visible" : ""} leading-relaxed mb-10 ${isDark ? "text-gray-400" : "text-gray-500"}`}>
               {siteConfig.about.description}
             </p>
 
             {/* Values */}
-            <div className="animate-on-scroll stagger-4 flex flex-wrap gap-3">
+            <div className={`animate-on-scroll stagger-4 ${isVisible ? "visible" : ""} flex flex-wrap gap-3`}>
               {siteConfig.about.values.map((value, index) => (
                 <span
                   key={index}
-                  className="px-4 py-2 rounded-full bg-white text-sm text-gray-600 shadow-sm border border-gray-100 hover:border-secondary/30 hover:text-secondary transition-all duration-300"
+                  className={`px-4 py-2 rounded-full text-sm shadow-sm border transition-all duration-300 ${
+                    isDark 
+                      ? "bg-primary-light text-gray-300 border-primary-light hover:border-secondary/30 hover:text-secondary" 
+                      : "bg-white text-gray-600 border-gray-100 hover:border-secondary/30 hover:text-secondary"
+                  }`}
                 >
                   {value}
                 </span>
@@ -91,7 +103,11 @@ export function About() {
             {siteConfig.about.highlights.map((highlight, index) => (
               <div
                 key={index}
-                className={`animate-on-scroll stagger-${index + 1} bg-white rounded-2xl p-6 shadow-sm border border-gray-100 group hover:shadow-md hover:border-secondary/20 transition-all duration-300`}
+                className={`animate-on-scroll stagger-${index + 1} ${isVisible ? "visible" : ""} rounded-2xl p-6 shadow-sm border group hover:shadow-md transition-all duration-300 ${
+                  isDark 
+                    ? "bg-primary-light/50 border-primary-light hover:border-secondary/20" 
+                    : "bg-white border-gray-100 hover:border-secondary/20"
+                }`}
               >
                 <div className="flex items-start gap-4">
                   <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-secondary/10 to-accent/10 flex items-center justify-center text-secondary font-bold group-hover:from-secondary/20 group-hover:to-accent/20 transition-all duration-300">
@@ -99,10 +115,10 @@ export function About() {
                   </div>
                   
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-secondary transition-colors duration-300">
+                    <h3 className={`text-lg font-semibold mb-2 group-hover:text-secondary transition-colors duration-300 ${isDark ? "text-white" : "text-gray-900"}`}>
                       {highlight.title}
                     </h3>
-                    <p className="text-sm text-gray-500 leading-relaxed">
+                    <p className={`text-sm leading-relaxed ${isDark ? "text-gray-400" : "text-gray-500"}`}>
                       {highlight.description}
                     </p>
                   </div>
@@ -111,10 +127,10 @@ export function About() {
             ))}
 
             {/* CTA */}
-            <div className="animate-on-scroll stagger-4 pt-4">
+            <div className={`animate-on-scroll stagger-4 ${isVisible ? "visible" : ""} pt-4`}>
               <button
                 onClick={openDialog}
-                className="inline-flex items-center gap-3 text-secondary hover:text-primary transition-colors duration-300 group cursor-pointer"
+                className={`inline-flex items-center gap-3 transition-colors duration-300 group cursor-pointer ${isDark ? "text-accent hover:text-secondary" : "text-secondary hover:text-primary"}`}
               >
                 <span>Conoce al equipo</span>
                 <svg
@@ -141,16 +157,20 @@ export function About() {
         >
           {/* Backdrop */}
           <div
-            className="absolute inset-0 bg-primary/40 backdrop-blur-sm animate-fade-in"
+            className={`absolute inset-0 backdrop-blur-sm animate-fade-in ${isDark ? "bg-black/60" : "bg-primary/40"}`}
             onClick={closeDialog}
           />
 
           {/* Dialog Content */}
-          <div className="relative bg-white rounded-2xl shadow-2xl max-w-3xl w-full overflow-hidden animate-scale-in">
+          <div className={`relative rounded-2xl shadow-2xl max-w-3xl w-full overflow-hidden animate-scale-in ${isDark ? "bg-primary" : "bg-white"}`}>
             {/* Close Button */}
             <button
               onClick={closeDialog}
-              className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-500 hover:text-gray-700 transition-all duration-300 cursor-pointer"
+              className={`absolute top-4 right-4 z-10 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer ${
+                isDark 
+                  ? "bg-primary-light text-gray-300 hover:text-white hover:bg-primary-light/80" 
+                  : "bg-gray-100 hover:bg-gray-200 text-gray-500 hover:text-gray-700"
+              }`}
               aria-label="Cerrar"
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -166,7 +186,7 @@ export function About() {
                   alt={siteConfig.equipo.nombre}
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent md:bg-gradient-to-r" />
+                <div className={`absolute inset-0 md:bg-gradient-to-r ${isDark ? "bg-gradient-to-t from-primary/40 to-transparent" : "bg-gradient-to-t from-primary/20 to-transparent"}`} />
               </div>
 
               {/* Content */}
@@ -176,11 +196,11 @@ export function About() {
                 </span>
                 <h3
                   id="team-dialog-title"
-                  className="text-2xl md:text-3xl font-bold text-gray-900 mb-4"
+                  className={`text-2xl md:text-3xl font-bold mb-4 ${isDark ? "text-white" : "text-gray-900"}`}
                 >
                   {siteConfig.equipo.nombre}
                 </h3>
-                <p className="text-gray-600 leading-relaxed mb-6">
+                <p className={`leading-relaxed mb-6 ${isDark ? "text-gray-300" : "text-gray-600"}`}>
                   {siteConfig.equipo.descripcion}
                 </p>
                 <a

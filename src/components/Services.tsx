@@ -1,26 +1,34 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { siteConfig } from "../site.config";
+import { useTheme } from "../context/ThemeContext";
 
 export function Services() {
   const sectionRef = useRef<HTMLElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const { isDark } = useTheme();
 
   useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    // Check if already in viewport
+    const rect = section.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      setIsVisible(true);
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.querySelectorAll(".animate-on-scroll").forEach((el) => {
-              el.classList.add("visible");
-            });
+            setIsVisible(true);
           }
         });
       },
       { threshold: 0.1 }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
+    observer.observe(section);
 
     return () => observer.disconnect();
   }, []);
@@ -38,18 +46,18 @@ export function Services() {
     <section
       id="services"
       ref={sectionRef}
-      className="relative py-24 md:py-32 bg-gray-50"
+      className={`relative py-24 md:py-32 transition-colors duration-300 ${isDark ? "bg-primary" : "bg-gray-50"}`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16 md:mb-20">
-          <span className="animate-on-scroll inline-block px-4 py-2 bg-secondary/10 text-secondary text-sm font-medium rounded-full mb-4">
+          <span className={`animate-on-scroll ${isVisible ? "visible" : ""} inline-block px-4 py-2 text-secondary text-sm font-medium rounded-full mb-4 ${isDark ? "bg-secondary/20" : "bg-secondary/10"}`}>
             Nuestros Servicios
           </span>
-          <h2 className="animate-on-scroll stagger-1 text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <h2 className={`animate-on-scroll stagger-1 ${isVisible ? "visible" : ""} text-3xl sm:text-4xl md:text-5xl font-bold mb-4 ${isDark ? "text-white" : "text-gray-900"}`}>
             {siteConfig.services.title}
           </h2>
-          <p className="animate-on-scroll stagger-2 text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className={`animate-on-scroll stagger-2 ${isVisible ? "visible" : ""} text-lg max-w-2xl mx-auto ${isDark ? "text-gray-300" : "text-gray-600"}`}>
             {siteConfig.services.subtitle}
           </p>
         </div>
@@ -59,7 +67,11 @@ export function Services() {
           {siteConfig.services.items.map((service, index) => (
             <div
               key={service.id}
-              className={`animate-on-scroll stagger-${(index % 6) + 1} bg-white rounded-2xl p-8 shadow-sm hover:shadow-lg transition-all duration-300 group border border-gray-100 hover:border-secondary/20`}
+              className={`animate-on-scroll stagger-${(index % 6) + 1} ${isVisible ? "visible" : ""} rounded-2xl p-8 shadow-sm hover:shadow-lg transition-all duration-300 group border ${
+                isDark 
+                  ? "bg-primary-light/50 border-primary-light hover:border-secondary/30" 
+                  : "bg-white border-gray-100 hover:border-secondary/20"
+              }`}
             >
               {/* Icon */}
               <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-secondary/10 to-accent/10 flex items-center justify-center text-secondary mb-6 group-hover:from-secondary/20 group-hover:to-accent/20 transition-all duration-300">
@@ -67,12 +79,12 @@ export function Services() {
               </div>
 
               {/* Service Title */}
-              <h3 className="text-xl font-semibold text-gray-900 mb-3 group-hover:text-secondary transition-colors duration-300">
+              <h3 className={`text-xl font-semibold mb-3 group-hover:text-secondary transition-colors duration-300 ${isDark ? "text-white" : "text-gray-900"}`}>
                 {service.title}
               </h3>
 
               {/* Service Description */}
-              <p className="text-gray-600 text-sm leading-relaxed mb-6">
+              <p className={`text-sm leading-relaxed mb-6 ${isDark ? "text-gray-300" : "text-gray-600"}`}>
                 {service.description}
               </p>
 
@@ -81,7 +93,7 @@ export function Services() {
                 {service.features.map((feature, fIndex) => (
                   <li
                     key={fIndex}
-                    className="flex items-center gap-3 text-sm text-gray-500"
+                    className={`flex items-center gap-3 text-sm ${isDark ? "text-gray-400" : "text-gray-500"}`}
                   >
                     <span className="w-1.5 h-1.5 bg-accent rounded-full flex-shrink-0"></span>
                     {feature}
@@ -90,10 +102,10 @@ export function Services() {
               </ul>
 
               {/* Link */}
-              <div className="mt-8 pt-6 border-t border-gray-100">
+              <div className={`mt-8 pt-6 border-t ${isDark ? "border-primary-light" : "border-gray-100"}`}>
                 <a
                   href="#contact"
-                  className="inline-flex items-center gap-2 text-sm text-gray-400 group-hover:text-secondary transition-colors duration-300"
+                  className={`inline-flex items-center gap-2 text-sm group-hover:text-secondary transition-colors duration-300 ${isDark ? "text-gray-400" : "text-gray-400"}`}
                 >
                   Saber más
                   <svg

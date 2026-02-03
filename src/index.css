@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
 /* ============================================
-   LOGICBYT - Modern Light Theme
+   LOGICBYT - Light & Dark Theme
    ============================================ */
 
 @theme {
-  /* Light Theme Colors */
+  /* Brand Colors */
   --color-primary: #082c4c;
   --color-primary-light: #0d3d66;
   --color-primary-dark: #051d33;
@@ -14,7 +14,7 @@
   --color-accent: #22e1c7;
   --color-accent-light: #4eebd6;
   
-  /* Light backgrounds */
+  /* Light Theme (default) */
   --color-light: #ffffff;
   --color-light-soft: #f8fafc;
   --color-light-muted: #f1f5f9;
@@ -87,6 +87,13 @@ body {
   color: var(--color-gray-800);
   overflow-x: hidden;
   line-height: 1.7;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Dark Mode Base */
+html.dark body {
+  background-color: var(--color-primary-dark);
+  color: var(--color-gray-200);
 }
 
 #root {
@@ -275,6 +282,48 @@ input:focus, textarea:focus {
 
 .animate-bounce-subtle {
   animation: bounce-subtle 2s ease-in-out infinite;
+}
+
+/* ============================================
+   Dark Mode Styles
+   ============================================ */
+
+/* Dark mode scrollbar */
+html.dark ::-webkit-scrollbar-track {
+  background: var(--color-primary);
+}
+
+html.dark ::-webkit-scrollbar-thumb {
+  background: var(--color-primary-light);
+}
+
+html.dark ::-webkit-scrollbar-thumb:hover {
+  background: var(--color-secondary);
+}
+
+/* Dark mode dot pattern */
+html.dark .dot-pattern {
+  background-image: radial-gradient(circle, rgba(52, 163, 223, 0.15) 1px, transparent 1px);
+}
+
+/* Dark mode buttons */
+html.dark .btn-primary {
+  background: linear-gradient(135deg, var(--color-secondary), var(--color-accent));
+  box-shadow: 0 4px 14px 0 rgba(52, 163, 223, 0.25);
+}
+
+html.dark .btn-primary:hover {
+  box-shadow: 0 8px 25px 0 rgba(52, 163, 223, 0.35);
+}
+
+html.dark .btn-secondary {
+  color: var(--color-gray-200);
+  border-color: var(--color-primary-light);
+}
+
+html.dark .btn-secondary:hover {
+  border-color: var(--color-secondary);
+  background: var(--color-primary-light);
 }
 
 /* ============================================

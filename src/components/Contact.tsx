@@ -1,9 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { siteConfig } from "../site.config";
 import emailjs from '@emailjs/browser';
+import { useTheme } from "../context/ThemeContext";
 
 export function Contact() {
   const sectionRef = useRef<HTMLElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const { isDark } = useTheme();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -14,22 +17,27 @@ export function Contact() {
   const [submitStatus, setSubmitStatus] = useState<{ type: 'success' | 'error'; name?: string } | null>(null);
 
   useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    // Check if already in viewport
+    const rect = section.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      setIsVisible(true);
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.querySelectorAll(".animate-on-scroll").forEach((el) => {
-              el.classList.add("visible");
-            });
+            setIsVisible(true);
           }
         });
       },
       { threshold: 0.1 }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
+    observer.observe(section);
 
     return () => observer.disconnect();
   }, []);
@@ -72,24 +80,24 @@ const handleSubmit = async (e: React.FormEvent) => {
     <section
       id="contact"
       ref={sectionRef}
-      className="relative py-24 md:py-32 bg-gray-50"
+      className={`relative py-24 md:py-32 transition-colors duration-300 ${isDark ? "bg-primary" : "bg-gray-50"}`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
           {/* Left Content */}
           <div>
-            <span className="animate-on-scroll inline-block px-4 py-2 bg-secondary/10 text-secondary text-sm font-medium rounded-full mb-4">
+            <span className={`animate-on-scroll ${isVisible ? "visible" : ""} inline-block px-4 py-2 text-secondary text-sm font-medium rounded-full mb-4 ${isDark ? "bg-secondary/20" : "bg-secondary/10"}`}>
               Contacto
             </span>
-            <h2 className="animate-on-scroll stagger-1 text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+            <h2 className={`animate-on-scroll stagger-1 ${isVisible ? "visible" : ""} text-3xl sm:text-4xl md:text-5xl font-bold mb-6 ${isDark ? "text-white" : "text-gray-900"}`}>
               {siteConfig.contact.title}
             </h2>
 
-            <p className="animate-on-scroll stagger-2 text-lg text-gray-600 mb-8">
+            <p className={`animate-on-scroll stagger-2 ${isVisible ? "visible" : ""} text-lg mb-8 ${isDark ? "text-gray-300" : "text-gray-600"}`}>
               {siteConfig.contact.subtitle}
             </p>
 
-            <p className="animate-on-scroll stagger-3 text-gray-500 leading-relaxed mb-10">
+            <p className={`animate-on-scroll stagger-3 ${isVisible ? "visible" : ""} leading-relaxed mb-10 ${isDark ? "text-gray-400" : "text-gray-500"}`}>
               {siteConfig.contact.description}
             </p>
 
@@ -97,9 +105,9 @@ const handleSubmit = async (e: React.FormEvent) => {
             <div className="space-y-4 mb-10">
               <a 
                 href={`mailto:${siteConfig.contact.email}`}
-                className="animate-on-scroll stagger-3 flex items-center gap-4 text-gray-600 hover:text-secondary transition-colors duration-300"
+                className={`animate-on-scroll stagger-3 ${isVisible ? "visible" : ""} flex items-center gap-4 transition-colors duration-300 ${isDark ? "text-gray-300 hover:text-secondary" : "text-gray-600 hover:text-secondary"}`}
               >
-                <div className="w-12 h-12 rounded-xl bg-white shadow-sm border border-gray-100 flex items-center justify-center text-secondary">
+                <div className={`w-12 h-12 rounded-xl shadow-sm border flex items-center justify-center text-secondary ${isDark ? "bg-primary-light border-primary-light" : "bg-white border-gray-100"}`}>
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
@@ -109,9 +117,9 @@ const handleSubmit = async (e: React.FormEvent) => {
 
               <a 
                 href={`https://wa.me/${siteConfig.contact.phone}`}
-                className="animate-on-scroll stagger-4 flex items-center gap-4 text-gray-600 hover:text-secondary transition-colors duration-300"
+                className={`animate-on-scroll stagger-4 ${isVisible ? "visible" : ""} flex items-center gap-4 transition-colors duration-300 ${isDark ? "text-gray-300 hover:text-secondary" : "text-gray-600 hover:text-secondary"}`}
               >
-                <div className="w-12 h-12 rounded-xl bg-white shadow-sm border border-gray-100 flex items-center justify-center text-secondary">
+                <div className={`w-12 h-12 rounded-xl shadow-sm border flex items-center justify-center text-secondary ${isDark ? "bg-primary-light border-primary-light" : "bg-white border-gray-100"}`}>
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                   </svg>
@@ -119,8 +127,8 @@ const handleSubmit = async (e: React.FormEvent) => {
                 <span>+{siteConfig.contact.phone}</span>
               </a>
 
-              <div className="animate-on-scroll stagger-5 flex items-center gap-4 text-gray-600">
-                <div className="w-12 h-12 rounded-xl bg-white shadow-sm border border-gray-100 flex items-center justify-center text-secondary">
+              <div className={`animate-on-scroll stagger-5 ${isVisible ? "visible" : ""} flex items-center gap-4 ${isDark ? "text-gray-300" : "text-gray-600"}`}>
+                <div className={`w-12 h-12 rounded-xl shadow-sm border flex items-center justify-center text-secondary ${isDark ? "bg-primary-light border-primary-light" : "bg-white border-gray-100"}`}>
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -131,8 +139,8 @@ const handleSubmit = async (e: React.FormEvent) => {
             </div>
 
             {/* Social Links */}
-            <div className="animate-on-scroll stagger-6">
-              <p className="text-sm text-gray-400 mb-4">Síguenos</p>
+            <div className={`animate-on-scroll stagger-6 ${isVisible ? "visible" : ""}`}>
+              <p className={`text-sm mb-4 ${isDark ? "text-gray-500" : "text-gray-400"}`}>Síguenos</p>
               <div className="flex gap-3">
                 {siteConfig.contact.social.map((social, index) => (
                   <a
@@ -140,7 +148,11 @@ const handleSubmit = async (e: React.FormEvent) => {
                     href={social.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-10 h-10 rounded-lg bg-white shadow-sm border border-gray-100 flex items-center justify-center text-gray-500 hover:text-secondary hover:border-secondary/30 transition-all duration-300"
+                    className={`w-10 h-10 rounded-lg shadow-sm border flex items-center justify-center transition-all duration-300 ${
+                      isDark 
+                        ? "bg-primary-light border-primary-light text-gray-400 hover:text-secondary hover:border-secondary/30" 
+                        : "bg-white border-gray-100 text-gray-500 hover:text-secondary hover:border-secondary/30"
+                    }`}
                     aria-label={social.platform}
                   >
                     {social.platform === "WhatsApp" && (
@@ -165,12 +177,12 @@ const handleSubmit = async (e: React.FormEvent) => {
           </div>
 
           {/* Contact Form */}
-          <div className="animate-on-scroll stagger-2">
+          <div className={`animate-on-scroll stagger-2 ${isVisible ? "visible" : ""}`}>
             {submitStatus && (
               <div className={`mb-6 p-4 rounded-xl flex items-center gap-3 transition-all duration-300 ${
                 submitStatus.type === 'success' 
-                  ? 'bg-accent/10 border border-accent/20' 
-                  : 'bg-red-50 border border-red-200'
+                  ? isDark ? 'bg-accent/20 border border-accent/30' : 'bg-accent/10 border border-accent/20' 
+                  : isDark ? 'bg-red-900/30 border border-red-800/30' : 'bg-red-50 border border-red-200'
               }`}>
                 {submitStatus.type === 'success' ? (
                   <>
@@ -180,29 +192,29 @@ const handleSubmit = async (e: React.FormEvent) => {
                       </svg>
                     </div>
                     <div>
-                      <p className="text-gray-900 font-medium">Mensaje enviado, {submitStatus.name}</p>
-                      <p className="text-gray-500 text-sm">Te responderemos pronto.</p>
+                      <p className={`font-medium ${isDark ? "text-white" : "text-gray-900"}`}>Mensaje enviado, {submitStatus.name}</p>
+                      <p className={`text-sm ${isDark ? "text-gray-400" : "text-gray-500"}`}>Te responderemos pronto.</p>
                     </div>
                   </>
                 ) : (
                   <>
-                    <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${isDark ? "bg-red-900/50" : "bg-red-100"}`}>
                       <svg className="w-5 h-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                       </svg>
                     </div>
                     <div>
-                      <p className="text-gray-900 font-medium">Error al enviar</p>
-                      <p className="text-gray-500 text-sm">Intenta nuevamente.</p>
+                      <p className={`font-medium ${isDark ? "text-white" : "text-gray-900"}`}>Error al enviar</p>
+                      <p className={`text-sm ${isDark ? "text-gray-400" : "text-gray-500"}`}>Intenta nuevamente.</p>
                     </div>
                   </>
                 )}
               </div>
             )}
-            <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-8 md:p-10 shadow-sm border border-gray-100">
+            <form onSubmit={handleSubmit} className={`rounded-2xl p-8 md:p-10 shadow-sm border ${isDark ? "bg-primary-light/50 border-primary-light" : "bg-white border-gray-100"}`}>
               <div className="space-y-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="name" className={`block text-sm font-medium mb-2 ${isDark ? "text-gray-200" : "text-gray-700"}`}>
                     Nombre
                   </label>
                   <input
@@ -213,12 +225,16 @@ const handleSubmit = async (e: React.FormEvent) => {
                     onChange={handleChange}
                     placeholder={siteConfig.contact.form.namePlaceholder}
                     required
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:border-secondary focus:ring-1 focus:ring-secondary/20 transition-all duration-300"
+                    className={`w-full px-4 py-3 border rounded-xl transition-all duration-300 ${
+                      isDark 
+                        ? "bg-primary border-primary-light text-white placeholder-gray-500 focus:border-secondary focus:ring-1 focus:ring-secondary/20" 
+                        : "bg-gray-50 border-gray-200 text-gray-900 placeholder-gray-400 focus:border-secondary focus:ring-1 focus:ring-secondary/20"
+                    }`}
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="email" className={`block text-sm font-medium mb-2 ${isDark ? "text-gray-200" : "text-gray-700"}`}>
                     Email
                   </label>
                   <input
@@ -229,12 +245,16 @@ const handleSubmit = async (e: React.FormEvent) => {
                     onChange={handleChange}
                     placeholder={siteConfig.contact.form.emailPlaceholder}
                     required
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:border-secondary focus:ring-1 focus:ring-secondary/20 transition-all duration-300"
+                    className={`w-full px-4 py-3 border rounded-xl transition-all duration-300 ${
+                      isDark 
+                        ? "bg-primary border-primary-light text-white placeholder-gray-500 focus:border-secondary focus:ring-1 focus:ring-secondary/20" 
+                        : "bg-gray-50 border-gray-200 text-gray-900 placeholder-gray-400 focus:border-secondary focus:ring-1 focus:ring-secondary/20"
+                    }`}
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="company" className={`block text-sm font-medium mb-2 ${isDark ? "text-gray-200" : "text-gray-700"}`}>
                     Empresa (opcional)
                   </label>
                   <input
@@ -244,12 +264,16 @@ const handleSubmit = async (e: React.FormEvent) => {
                     value={formData.company}
                     onChange={handleChange}
                     placeholder={siteConfig.contact.form.companyPlaceholder}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:border-secondary focus:ring-1 focus:ring-secondary/20 transition-all duration-300"
+                    className={`w-full px-4 py-3 border rounded-xl transition-all duration-300 ${
+                      isDark 
+                        ? "bg-primary border-primary-light text-white placeholder-gray-500 focus:border-secondary focus:ring-1 focus:ring-secondary/20" 
+                        : "bg-gray-50 border-gray-200 text-gray-900 placeholder-gray-400 focus:border-secondary focus:ring-1 focus:ring-secondary/20"
+                    }`}
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="message" className={`block text-sm font-medium mb-2 ${isDark ? "text-gray-200" : "text-gray-700"}`}>
                     Mensaje
                   </label>
                   <textarea
@@ -260,7 +284,11 @@ const handleSubmit = async (e: React.FormEvent) => {
                     placeholder={siteConfig.contact.form.messagePlaceholder}
                     required
                     rows={5}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:border-secondary focus:ring-1 focus:ring-secondary/20 transition-all duration-300 resize-none"
+                    className={`w-full px-4 py-3 border rounded-xl transition-all duration-300 resize-none ${
+                      isDark 
+                        ? "bg-primary border-primary-light text-white placeholder-gray-500 focus:border-secondary focus:ring-1 focus:ring-secondary/20" 
+                        : "bg-gray-50 border-gray-200 text-gray-900 placeholder-gray-400 focus:border-secondary focus:ring-1 focus:ring-secondary/20"
+                    }`}
                   />
                 </div>
 
