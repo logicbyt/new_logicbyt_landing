@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { siteConfig } from "../site.config";
+import emailjs from '@emailjs/browser';
 
 export function Contact() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -32,14 +33,30 @@ export function Contact() {
     return () => observer.disconnect();
   }, []);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    setIsSubmitting(false);
-    setFormData({ name: "", email: "", company: "", message: "" });
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setIsSubmitting(true);
+  
+  try {
+    await emailjs.send(
+      'service_logicbyt_mail',
+      'template_0uls1kf',
+      {
+        name: formData.name,
+        email: formData.email,
+        company: formData.company,
+        message: formData.message,
+      },
+      'AXtunWflrurZfUr1n'
+    );
     alert("¡Mensaje enviado con éxito!");
-  };
+    setFormData({ name: "", email: "", company: "", message: "" });
+  } catch (error) {
+    alert("Error al enviar el mensaje");
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
