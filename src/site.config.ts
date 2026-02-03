@@ -126,7 +126,7 @@ export const siteConfig = {
   projects: {
     title: "Proyectos Destacados",
     subtitle: "Soluciones que transforman negocios y generan resultados",
-    categories: ["Todos", "Web App"],
+    categories: ["Todos", "Web App", "Empresariales"],
     items: [
       {
         id: 1,
@@ -156,6 +156,22 @@ export const siteConfig = {
         year: "2025",
         url: "https://dulcerose.com",
         featured: true,
+        results: [
+          { metric: "Ventas mensuales", value: "3x" },
+          { metric: "Tasa de conversión", value: "4.8%" },
+        ],
+      },
+      {
+        id: 3,
+        title: "Proyectos privados",
+        category: "Empresariales",
+        description: "Proyectos privados para empresas reconocidas",
+        image: "images/projects.png",
+        tags: ["Java", "PHP", "SQL", "Python"],
+        client: "Empresas Reconocidas",
+        year: "2025",
+        url: "https://logicbyt.com",
+        featured: false,
         results: [
           { metric: "Ventas mensuales", value: "3x" },
           { metric: "Tasa de conversión", value: "4.8%" },
