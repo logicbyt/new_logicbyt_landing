@@ -252,7 +252,7 @@ export function Projects() {
                 </div>
 
                 {/* Browser Mockup */}
-                <div className={`mb-10 rounded-2xl overflow-hidden shadow-2xl border ${isDark ? "border-primary-light/30" : "border-gray-200"}`}>
+                <div className={`sm:mb-10 rounded-2xl overflow-hidden shadow-2xl border ${isDark ? "border-primary-light/30" : "border-gray-200"}`}>
                   <div className={`px-4 py-3 flex items-center gap-4 border-b ${isDark ? "bg-primary-light border-primary-light/30" : "bg-gray-100 border-gray-200"}`}>
                     <div className="flex items-center gap-2">
                       <div className="w-3 h-3 rounded-full bg-red-400"></div>
@@ -282,7 +282,19 @@ export function Projects() {
                   <div className={`relative aspect-video ${isDark ? "bg-primary" : "bg-gray-50"}`}>
                     <img src={selectedProject.image} alt={selectedProject.title} className="w-full h-full object-cover" />
                   </div>
+                  
                 </div>
+                <a
+                      href={selectedProject.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex sm:hidden mb-5 items-center gap-2 px-4 py-2 rounded-lg bg-secondary text-white text-sm font-medium hover:bg-secondary/90 transition-colors duration-300"
+                    >
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                    Visitar
+                  </a>
 
                 {/* Project Details Grid */}
                 <div className="grid md:grid-cols-3 gap-6 mb-10">
