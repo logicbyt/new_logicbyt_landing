@@ -11,6 +11,7 @@ export function Contact() {
     message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<{ type: 'success' | 'error'; name?: string } | null>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -36,23 +37,28 @@ export function Contact() {
 const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
   setIsSubmitting(true);
+  setSubmitStatus(null);
+  
+  const userName = formData.name;
   
   try {
     await emailjs.send(
-      'service_logicbyt_mail',
-      'template_0uls1kf',
+      siteConfig.contact.emailjs.serviceId,
+      siteConfig.contact.emailjs.templateId,
       {
         name: formData.name,
         email: formData.email,
         company: formData.company,
         message: formData.message,
       },
-      'AXtunWflrurZfUr1n'
+      siteConfig.contact.emailjs.publicKey
     );
-    alert("¡Mensaje enviado con éxito!");
+    setSubmitStatus({ type: 'success', name: userName });
     setFormData({ name: "", email: "", company: "", message: "" });
+    setTimeout(() => setSubmitStatus(null), 5000);
   } catch (error) {
-    alert("Error al enviar el mensaje");
+    setSubmitStatus({ type: 'error' });
+    setTimeout(() => setSubmitStatus(null), 5000);
   } finally {
     setIsSubmitting(false);
   }
@@ -160,6 +166,39 @@ const handleSubmit = async (e: React.FormEvent) => {
 
           {/* Contact Form */}
           <div className="animate-on-scroll stagger-2">
+            {submitStatus && (
+              <div className={`mb-6 p-4 rounded-xl flex items-center gap-3 transition-all duration-300 ${
+                submitStatus.type === 'success' 
+                  ? 'bg-accent/10 border border-accent/20' 
+                  : 'bg-red-50 border border-red-200'
+              }`}>
+                {submitStatus.type === 'success' ? (
+                  <>
+                    <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0">
+                      <svg className="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="text-gray-900 font-medium">Mensaje enviado, {submitStatus.name}</p>
+                      <p className="text-gray-500 text-sm">Te responderemos pronto.</p>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
+                      <svg className="w-5 h-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="text-gray-900 font-medium">Error al enviar</p>
+                      <p className="text-gray-500 text-sm">Intenta nuevamente.</p>
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
             <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-8 md:p-10 shadow-sm border border-gray-100">
               <div className="space-y-6">
                 <div>

@@ -230,6 +230,12 @@ export const siteConfig = {
     email: "contact@logicbyt.com",
     phone: "51955005782",
     address: "Piura, Perú",
+    // EmailJS Configuration
+    emailjs: {
+      serviceId: "service_logicbyt_mail",
+      templateId: "template_0uls1kf",
+      publicKey: "AXtunWflrurZfUr1n",
+    },
     form: {
       namePlaceholder: "Tu nombre",
       emailPlaceholder: "tu@email.com",
