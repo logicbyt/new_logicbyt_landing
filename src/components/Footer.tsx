@@ -5,7 +5,7 @@ export function Footer() {
   const { isDark } = useTheme();
 
   return (
-    <footer className={`relative transition-colors duration-300 ${isDark ? "bg-primary-dark border-t border-primary-light" : "bg-white border-t border-gray-100"}`}>
+    <footer className={`relative px-5 transition-colors duration-300 ${isDark ? "bg-primary-dark border-t border-primary-light" : "bg-white border-t border-gray-100"}`}>
       {/* Main Footer */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 lg:gap-12">

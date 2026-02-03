@@ -11,7 +11,7 @@ export function Hero() {
   }, []);
 
   return (
-    <section id="hero" className={`relative min-h-screen flex items-center overflow-hidden transition-colors duration-300 ${isDark ? "bg-primary-dark" : "bg-white"}`}>
+    <section id="hero" className={`px-5 sm:px-10 relative min-h-screen flex items-center overflow-hidden transition-colors duration-300 ${isDark ? "bg-primary-dark" : "bg-white"}`}>
       {/* Subtle gradient background */}
       <div className={`absolute inset-0 transition-colors duration-300 ${isDark ? "bg-gradient-to-br from-primary-dark via-primary to-primary-dark" : "bg-gradient-to-br from-gray-50 via-white to-blue-50/30"}`}></div>
       

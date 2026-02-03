@@ -294,14 +294,14 @@ export const siteConfig = {
           { label: "Blog", href: "#blog" },
         ],
       },
-      {
-        title: "Legal",
-        items: [
-          { label: "Privacidad", href: "#privacy" },
-          { label: "Términos", href: "#terms" },
-          { label: "Cookies", href: "#cookies" },
-        ],
-      },
+      // {
+      //   title: "Legal",
+      //   items: [
+      //     { label: "Privacidad", href: "#privacy" },
+      //     { label: "Términos", href: "#terms" },
+      //     { label: "Cookies", href: "#cookies" },
+      //   ],
+      // },
     ],
     copyright: `© ${new Date().getFullYear()} LogicByt. Todos los derechos reservados.`,
   },

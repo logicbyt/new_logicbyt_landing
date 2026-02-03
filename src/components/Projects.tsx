@@ -75,7 +75,7 @@ export function Projects() {
       <section
         id="projects"
         ref={sectionRef}
-        className={`relative py-24 md:py-32 transition-colors duration-300 ${isDark ? "bg-primary-dark" : "bg-white"}`}
+        className={`relative px-5 py-24 md:py-32 transition-colors duration-300 ${isDark ? "bg-primary-dark" : "bg-white"}`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section Header */}

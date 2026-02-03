@@ -60,7 +60,7 @@ export function About() {
     <section
       id="about"
       ref={sectionRef}
-      className={`relative py-24 md:py-32 transition-colors duration-300 ${isDark ? "bg-primary" : "bg-gray-50"}`}
+      className={`relative px-5 py-24 md:py-32 transition-colors duration-300 ${isDark ? "bg-primary" : "bg-gray-50"}`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
